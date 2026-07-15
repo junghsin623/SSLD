@@ -18,7 +18,10 @@ codes/
 ├── eval_lane_level.py      # Lane IoU, precision, recall, and F1 evaluation
 ├── visualizer.py           # Image, vehicle-BEV, and map-BEV visualization
 ├── utils.py                # Route processing and ego-lane selection utilities
-└── exp.py                  # Scene exclusion lists
+├── exp.py                  # Scene exclusion lists
+└── tools/                  # Shared low-level helpers
+    ├── utils.py            # Common route and geometry utilities
+    └── visualizer.py       # Common grid, route, and dashboard rendering
 ```
 
 ## Requirements
@@ -31,7 +34,7 @@ pip install numpy torch opencv-python scipy pandas joblib tqdm openpyxl
 
 `openpyxl` is only required when `eval_algo.py` exports an Excel report.
 
-The repository also depends on an external `tools` package that is not included in this directory.
+Shared low-level helpers are included in the local `codes/tools` package.
 
 [utils.py](codes/utils.py) imports shared route-processing utilities:
 
@@ -39,7 +42,7 @@ The repository also depends on an external `tools` package that is not included 
 from tools.utils import *
 ```
 
-The package must provide functions used by SSLD, including `match_route`, `clip_en_route`, `map_en_route_to_veh_route`, `compute_walk_point`, `subdivide_route`, and related helpers.
+The shared module provides functions used by SSLD, including `match_route`, `clip_en_route`, `map_en_route_to_veh_route`, `compute_walk_point`, `subdivide_route`, and related helpers.
 
 [visualizer.py](codes/visualizer.py) also imports shared visualization helpers:
 
@@ -47,9 +50,9 @@ The package must provide functions used by SSLD, including `match_route`, `clip_
 from tools.visualizer import draw_grid_lines, truncate_route, combine_custom_dashboard
 ```
 
-The external module must therefore provide `draw_grid_lines`, `truncate_route`, and `combine_custom_dashboard`.
+The shared visualization module provides `draw_grid_lines`, `truncate_route`, and `combine_custom_dashboard`.
 
-Make sure the required `tools` package is available through `PYTHONPATH` before running any scripts.
+Run the scripts from `codes/` so the local `tools` package can be imported directly.
 
 ## Dataset layout
 
